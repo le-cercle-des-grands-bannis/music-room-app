@@ -1,0 +1,29 @@
+name: Test CI
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+
+jobs:
+  test:
+    name: Check if the unit tests are successfull
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the project
+        uses: actions/checkout@v2
+
+      - name: Setting up the environment
+        run: cp .env.example .env
+
+      - name: Setting the development environment
+        run: sed -i 's/production/development/' .env
+
+      - name: Install the Node.js dependencies
+        run: make install
+
+      - name: Check if all unit tests pass
+        run: make test
