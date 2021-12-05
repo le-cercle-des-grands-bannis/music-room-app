@@ -7,9 +7,9 @@ const Auth = () => {
   const navigation = useNavigation<authProp>();
 
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Auth Screen</Text>
-      <TouchableOpacity
+    <View style={styles.container}>
+      <Text>Auth</Text>
+      <TouchableOpacity // To remove when automatic redirection is UP
         style={styles.button}
         onPress={() => navigation.goBack()}
       />

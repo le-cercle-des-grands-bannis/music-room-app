@@ -20,9 +20,8 @@ const Splash = () => {
 
   return (
     <View style={styles.container}>
-      <Text>This is the Splash</Text>
       <ActivityIndicator style={styles.activityIndicator} />
-      <TouchableOpacity
+      <TouchableOpacity // To remove when automatic redirection is UP
         style={styles.button}
         onPress={() => navigation.navigate('Auth')}
       />
