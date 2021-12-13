@@ -2,7 +2,7 @@ export interface USER {
   firstName: string;
   lastName: string;
   password: string;
-  company: string;
-  phone: string;
+  password_confirmation: string,
+  email_confirmation: string,
   email: string;
 }

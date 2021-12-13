@@ -25,9 +25,9 @@ export const userRegister = async (user: USER) => {
     body: JSON.stringify({
       firstName: user.firstName,
       lastName: user.lastName,
+      password_confirmation: user.password_confirmation,
+      email_confirmation: user.email_confirmation,
       password: user.password,
-      company: user.company,
-      phone: user.phone,
       email: user.email,
     }),
   };

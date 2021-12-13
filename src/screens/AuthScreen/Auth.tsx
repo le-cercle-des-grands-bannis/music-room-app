@@ -1,4 +1,4 @@
-import React, {useState, useContext, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
   StyleSheet,
   View,
@@ -11,19 +11,15 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {authProps} from '../../navigation/NavigatorParam';
-import {
-  checkEmail,
-  checkPasswordRegister,
-} from '../../helpers/validators';
+import {checkEmail, checkPasswordRegister} from '../../helpers/validators';
 import {
   loginUserAction,
   registerUserAction,
   clearUserErrors,
 } from '../../redux/reduxActions/auth';
-import {viewSizes, fonts, fontSizes, colors} from '../../config/styles';
+import {viewSizes, fontSizes, colors} from '../../config/styles';
 import Header from '../../components/Header';
 import AlertHandler from '../../components/AlertHandler';
-import {AppContext} from '../../helpers/appContext';
 import {triggerAlert} from '../../helpers/triggerAlert';
 
 const Auth: React.FC = () => {
@@ -62,19 +58,15 @@ const Auth: React.FC = () => {
 
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [passwordConfirm, setPasswordConfirm] = useState<string>('');
+  const [password_confirmation, setPasswordConfirm] = useState<string>('');
+  const [email_confirmation, setEmail_confirmation] = useState<string>(email);
   const [firstName, setFirstName] = useState<string>('');
   const [lastName, setLastName] = useState<string>('');
-  const [company, setCompany] = useState<string>('');
-  const [phone, setPhone] = useState<string>('');
   const [isLogin, setIsLogin] = useState<boolean>(true);
   const [isSelected, setIsSelected] = useState<boolean>(true);
 
-  // @ts-ignore
-  const {lang} = useContext(AppContext);
-
-  const registerText = lang.formsTitles.register;
-  const connectText = lang.formsTitles.login;
+  const registerText = 'SignUP';
+  const connectText = 'SignIn';
 
   const loginUser = async () => {
     const emailCheck = checkEmail(email);
@@ -106,7 +98,7 @@ const Auth: React.FC = () => {
           setIsError(true);
         },
         () => {
-          setMessage(lang.formsErrors.passwordChk.empty);
+          setMessage('Please enter a password');
         },
         () => {
           setTimeout(() => {
@@ -131,7 +123,7 @@ const Auth: React.FC = () => {
 
   const registerUser = async () => {
     const emailCheck = checkEmail(email);
-    const passCheck = checkPasswordRegister(password, passwordConfirm);
+    const passCheck = checkPasswordRegister(password, password_confirmation);
     if (emailCheck.error) {
       // errorHandler(true, emailCheck.message);
       triggerAlert(
@@ -176,8 +168,8 @@ const Auth: React.FC = () => {
         {
           email,
           password,
-          company,
-          phone,
+          password_confirmation,
+          email_confirmation,
           firstName,
           lastName,
         },
@@ -191,11 +183,7 @@ const Auth: React.FC = () => {
   };
 
   const bottom = isLogin ? '34%' : '22%';
-  const terms = [
-    isLogin ? lang.formsTitles.terms[0] : lang.formsTitles.terms[1],
-    lang.formsTitles.terms[2],
-    lang.formsTitles.terms[3],
-  ];
+
   return (
     <View style={styles.container}>
       <Header />
@@ -217,9 +205,6 @@ const Auth: React.FC = () => {
               style={{
                 color: colors.black,
                 fontSize: fontSizes.large,
-                fontFamily: !isSelected
-                  ? fonts.futuraBTLight
-                  : fonts.futuraBTBold,
                 fontWeight:
                   Platform.OS === 'ios' && isSelected ? 'bold' : 'normal',
               }}>
@@ -236,9 +221,6 @@ const Auth: React.FC = () => {
               style={{
                 color: colors.black,
                 fontSize: fontSizes.large,
-                fontFamily: isSelected
-                  ? fonts.futuraBTLight
-                  : fonts.futuraBTBold,
                 fontWeight:
                   Platform.OS === 'ios' && !isSelected ? 'bold' : 'normal',
               }}>
@@ -252,7 +234,7 @@ const Auth: React.FC = () => {
             onChangeText={value => setEmail(value)}
             value={email}
             secureTextEntry={false}
-            placeholder={lang.formsTitles.email}
+            placeholder={'email *'}
             placeholderTextColor={colors.black}
             autoCapitalize="none"
             autoCorrect={false}
@@ -264,7 +246,7 @@ const Auth: React.FC = () => {
             onChangeText={value => setPassword(value)}
             value={password}
             secureTextEntry={true}
-            placeholder={lang.formsTitles.pass}
+            placeholder={'password *'}
             placeholderTextColor={colors.black}
             autoCapitalize="none"
             autoCorrect={false}
@@ -275,10 +257,22 @@ const Auth: React.FC = () => {
             <>
               <TextInput
                 style={styles.input}
+                onChangeText={value => setEmail_confirmation(value)}
+                value={email_confirmation}
+                secureTextEntry={false}
+                placeholder={'confirm email'}
+                placeholderTextColor={colors.black}
+                autoCapitalize="none"
+                autoCorrect={false}
+                editable={true}
+                multiline={false}
+              />
+              <TextInput
+                style={styles.input}
                 onChangeText={value => setPasswordConfirm(value)}
-                value={passwordConfirm}
+                value={password_confirmation}
                 secureTextEntry={true}
-                placeholder={lang.formsTitles.confirmPass}
+                placeholder={'confirm password'}
                 placeholderTextColor={colors.black}
                 autoCapitalize="none"
                 autoCorrect={false}
@@ -290,7 +284,7 @@ const Auth: React.FC = () => {
                 onChangeText={value => setFirstName(value)}
                 value={firstName}
                 secureTextEntry={false}
-                placeholder={lang.formsTitles.firstName}
+                placeholder={'first Name'}
                 placeholderTextColor={colors.black}
                 autoCapitalize="none"
                 autoCorrect={false}
@@ -302,31 +296,7 @@ const Auth: React.FC = () => {
                 onChangeText={value => setLastName(value)}
                 value={lastName}
                 secureTextEntry={false}
-                placeholder={lang.formsTitles.lastName}
-                placeholderTextColor={colors.black}
-                autoCapitalize="none"
-                autoCorrect={false}
-                editable={true}
-                multiline={false}
-              />
-              <TextInput
-                style={styles.input}
-                onChangeText={value => setCompany(value)}
-                value={company}
-                secureTextEntry={false}
-                placeholder={lang.formsTitles.company}
-                placeholderTextColor={colors.black}
-                autoCapitalize="none"
-                autoCorrect={false}
-                editable={true}
-                multiline={false}
-              />
-              <TextInput
-                style={styles.input}
-                onChangeText={value => setPhone(value)}
-                value={phone}
-                secureTextEntry={false}
-                placeholder={lang.formsTitles.phone}
+                placeholder={'last name'}
                 placeholderTextColor={colors.black}
                 autoCapitalize="none"
                 autoCorrect={false}
@@ -343,10 +313,9 @@ const Auth: React.FC = () => {
               <Text
                 style={{
                   fontSize: 20,
-                  fontFamily: fonts.futuraBTBook,
                   color: colors.black,
                 }}>
-                {lang.formsTitles.ForgotPassword}
+                {'forgot password'}
               </Text>
             </TouchableOpacity>
           )}
@@ -369,15 +338,6 @@ const Auth: React.FC = () => {
               {isLogin ? connectText : registerText}
             </Text>
           </TouchableOpacity>
-          <View style={styles.termsWrapper}>
-            <Text style={styles.termsStyle}>
-              {terms[0]}
-              <Text style={{fontWeight: 'bold', color: colors.black}}>
-                {terms[1]}
-              </Text>
-              {terms[2]}
-            </Text>
-          </View>
         </View>
       </ScrollView>
     </View>
@@ -434,7 +394,6 @@ const styles = StyleSheet.create({
   connectText: {
     color: colors.black,
     fontSize: fontSizes.large,
-    fontFamily: fonts.openSansBold,
     textAlign: 'center',
     marginVertical: 12,
   },
@@ -442,7 +401,6 @@ const styles = StyleSheet.create({
     color: colors.black,
     marginBottom: 16,
     fontSize: fontSizes.small,
-    fontFamily: fonts.openSansBold,
   },
   inputWrapper: {
     marginTop: 40,
@@ -475,7 +433,6 @@ const styles = StyleSheet.create({
     margin: 20,
     alignContent: 'center',
     justifyContent: 'center',
-    fontFamily: fonts.futuraBTBold,
     fontSize: fontSizes.large,
     fontWeight: 'bold',
     color: colors.black,
@@ -489,14 +446,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'center',
-    fontFamily: fonts.futuraBTLight,
     color: colors.black,
   },
   errorStyle: {
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'center',
-    fontFamily: fonts.openSans,
     color: 'red',
   },
   requiredFieldsLabel: {
