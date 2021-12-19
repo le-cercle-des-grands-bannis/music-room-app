@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, Animated} from 'react-native';
-import {fonts, viewSizes} from '../config/styles';
+import {viewSizes} from '../config/styles';
 
 const AlertHandler: React.FC<{message: string; alertType: string}> = ({
   message,

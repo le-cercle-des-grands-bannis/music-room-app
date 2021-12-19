@@ -2,7 +2,6 @@ import {API_URL} from '../../config/api';
 import {authHeader} from '../../helpers/auth_header';
 import {USER} from '../../helpers/interfaces/user';
 
-
 /*
  * Method: POST
  * Desc: Register User

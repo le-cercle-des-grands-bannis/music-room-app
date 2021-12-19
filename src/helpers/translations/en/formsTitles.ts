@@ -60,7 +60,11 @@ export const formsTitles = {
     'public ',
     'your pictures will become accessible by every users.',
   ],
-  warningUserPublic: ['By choosing ', 'private ', 'your pictures will be accessible only by you.'],
+  warningUserPublic: [
+    'By choosing ',
+    'private ',
+    'your pictures will be accessible only by you.',
+  ],
   successSendToCloud: 'Your pictures as been successfully send to your cloud',
   consult: 'Consult',
   tagFamily: 'Family',

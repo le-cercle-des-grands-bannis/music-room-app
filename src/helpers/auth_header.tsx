@@ -5,9 +5,12 @@ export async function authHeader() {
   const token = await AsyncStorage.getItem('TOKEN');
 
   if (token) {
-    return { Authorization: `Bearer ${JSON.parse(token)}`, 'Content-Type': 'application/json' };
+    return {
+      Authorization: `Bearer ${JSON.parse(token)}`,
+      'Content-Type': 'application/json',
+    };
   } else {
-    return { 'Content-Type': 'application/json' };
+    return {'Content-Type': 'application/json'};
   }
 }
 
