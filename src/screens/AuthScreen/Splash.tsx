@@ -1,15 +1,9 @@
 import React, {useEffect} from 'react';
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  ActivityIndicator,
-  StatusBar,
-} from 'react-native';
+import {StyleSheet, View, ActivityIndicator, StatusBar} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {splashProps} from '../../navigation/NavigatorParam';
 import {fetchUserAction} from '../../redux/reduxActions/auth';
-import {useDispatch} from "react-redux";
+import {useDispatch} from 'react-redux';
 const Splash = () => {
   const navigation = useNavigation<splashProps>(); // To remove when automatic redirection is UP
 
@@ -18,7 +12,7 @@ const Splash = () => {
   useEffect(() => {
     // @ts-ignore
     dispatch(fetchUserAction(navigation));
-  }, []);
+  }, [dispatch, navigation]);
 
   return (
     <View style={styles.container}>

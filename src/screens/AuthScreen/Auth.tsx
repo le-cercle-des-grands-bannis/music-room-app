@@ -186,7 +186,6 @@ const Auth: React.FC = () => {
 
   const bottom = isLogin ? '34%' : '22%';
 
-  console.log(auth);
   return (
     <View style={styles.container}>
       <Header />
