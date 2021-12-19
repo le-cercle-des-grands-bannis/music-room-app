@@ -62,6 +62,7 @@ const Auth: React.FC = () => {
   const [email_confirmation, setEmail_confirmation] = useState<string>(email);
   const [firstName, setFirstName] = useState<string>('');
   const [lastName, setLastName] = useState<string>('');
+  const [username, setUsername] = useState<string>('');
   const [isLogin, setIsLogin] = useState<boolean>(true);
   const [isSelected, setIsSelected] = useState<boolean>(true);
 
@@ -172,6 +173,7 @@ const Auth: React.FC = () => {
           email_confirmation,
           firstName,
           lastName,
+          username,
         },
         navigation,
         () => {
@@ -184,6 +186,7 @@ const Auth: React.FC = () => {
 
   const bottom = isLogin ? '34%' : '22%';
 
+  console.log(auth);
   return (
     <View style={styles.container}>
       <Header />
@@ -273,6 +276,18 @@ const Auth: React.FC = () => {
                 value={password_confirmation}
                 secureTextEntry={true}
                 placeholder={'confirm password'}
+                placeholderTextColor={colors.black}
+                autoCapitalize="none"
+                autoCorrect={false}
+                editable={true}
+                multiline={false}
+              />
+              <TextInput
+                style={styles.input}
+                onChangeText={value => setUsername(value)}
+                value={username}
+                secureTextEntry={false}
+                placeholder={'username'}
                 placeholderTextColor={colors.black}
                 autoCapitalize="none"
                 autoCorrect={false}

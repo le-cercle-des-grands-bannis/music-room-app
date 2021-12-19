@@ -28,6 +28,7 @@ export const userRegister = async (user: USER) => {
       email_confirmation: user.email_confirmation,
       password: user.password,
       email: user.email,
+      username: user.username,
     }),
   };
   // @ts-ignore

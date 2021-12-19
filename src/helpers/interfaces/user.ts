@@ -5,4 +5,5 @@ export interface USER {
   password_confirmation: string;
   email_confirmation: string;
   email: string;
+  username: string;
 }
