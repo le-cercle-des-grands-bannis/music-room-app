@@ -5,5 +5,5 @@ export type NavigatorParam = {
   Auth: undefined;
 };
 
-export type authProp = StackNavigationProp<NavigatorParam, 'Auth'>;
+export type authProps = StackNavigationProp<NavigatorParam, 'Auth'>;
 export type splashProps = StackNavigationProp<NavigatorParam, 'Splash'>; // To remove when automatic redirection is UP

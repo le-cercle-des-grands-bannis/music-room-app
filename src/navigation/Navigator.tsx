@@ -5,13 +5,17 @@ import {SafeAreaView, StyleSheet} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {NavigatorParam} from './NavigatorParam';
 import Splash from '../screens/AuthScreen/Splash';
+import translations from '../helpers/translations/translations';
+import {lang} from '../helpers/translations/setLanguage';
 
 const Stack = createStackNavigator<NavigatorParam>();
 
 const AppNavigator = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <NavigationContainer>
+      {/*// @ts-ignore*/}
+
+      <NavigationContainer value={{lang: translations[lang]}}>
         <Stack.Navigator
           initialRouteName="Splash"
           screenOptions={{
