@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
-import {authProps} from '../../navigation/NavigatorParam';
+import {signInProps} from '../../navigation/NavigatorParam';
 import {checkEmail, checkPasswordRegister} from '../../helpers/validators';
 import {
   loginUserAction,
@@ -23,7 +23,7 @@ import AlertHandler from '../../components/AlertHandler';
 import {triggerAlert} from '../../helpers/triggerAlert';
 
 const Auth: React.FC = () => {
-  const navigation = useNavigation<authProps>();
+  const navigation = useNavigation<signInProps>();
 
   const dispatch = useDispatch();
 
