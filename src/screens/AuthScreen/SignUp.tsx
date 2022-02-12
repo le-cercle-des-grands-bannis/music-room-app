@@ -1,12 +1,13 @@
-import {StyleSheet, Text, TextInput, View} from 'react-native';
-import {Button} from '../../components/Button';
-import {NavigationProp} from '@react-navigation/native';
+import { NavigationProp } from '@react-navigation/native';
 import React from 'react';
-const TextField = (props: {secureTextEntry?: boolean}) => {
+import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+
+import { Button } from '../../components/Button';
+const TextField = (props: { secureTextEntry?: boolean }) => {
   return (
     <View style={styles2.textField}>
       <TextInput
-        style={{height: 40, textAlign: 'center'}}
+        style={{ height: 40, textAlign: 'center' }}
         secureTextEntry={props.secureTextEntry}
       />
     </View>
@@ -15,11 +16,11 @@ const TextField = (props: {secureTextEntry?: boolean}) => {
 
 const Field = (props: {
   name: string;
-  textInputPros?: {secureTextEntry?: boolean};
+  textInputPros?: { secureTextEntry?: boolean };
 }) => {
   return (
     <View>
-      <View style={{alignItems: 'center', paddingVertical: 10}}>
+      <View style={{ alignItems: 'center', paddingVertical: 10 }}>
         <Text>{props.name}</Text>
       </View>
       <TextField secureTextEntry={props?.textInputPros?.secureTextEntry} />
@@ -33,18 +34,18 @@ export default function SignUp({
   navigation: NavigationProp<any>;
 }) {
   return (
-    <View style={styles.container}>
-      <Text style={{fontSize: 30, paddingBottom: 10}}>Inscription</Text>
-      <Field name={"Nom d'utilisation"} />
-      <Field name={'Email'} />
-      <Field name={'Confirmation email'} />
-      <Field name={'Mot de passe'} textInputPros={{secureTextEntry: true}} />
+    <ScrollView contentContainerStyle={styles.container}>
+      <Text style={{ fontSize: 30, paddingBottom: 10 }}>Inscription</Text>
+      <Field name="Nom d'utilisation" />
+      <Field name="Email" />
+      <Field name="Confirmation email" />
+      <Field name="Mot de passe" textInputPros={{ secureTextEntry: true }} />
       <Field
-        name={'Confirmation mot de passe'}
-        textInputPros={{secureTextEntry: true}}
+        name="Confirmation mot de passe"
+        textInputPros={{ secureTextEntry: true }}
       />
-      <View style={{padding: 30, width: 300}}>
-        <Button name={'valider'} />
+      <View style={{ padding: 30, width: 300 }}>
+        <Button name="valider" />
       </View>
       <Text
         style={{
@@ -56,14 +57,14 @@ export default function SignUp({
         onPress={() => navigation.navigate('SignIn')}>
         J'ai deja un compte
       </Text>
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    flexShrink: 1,
+    flexGrow: 1,
+    paddingVertical: 40,
     alignItems: 'center',
     justifyContent: 'center',
   },
