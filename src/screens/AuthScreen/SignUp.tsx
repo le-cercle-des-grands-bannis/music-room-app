@@ -1,14 +1,24 @@
 import { NavigationProp } from '@react-navigation/native';
-import React from 'react';
-import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import React, { ClassAttributes, useEffect, useRef } from 'react';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TextInputProps,
+  View,
+} from 'react-native';
 
+import Api from '../../Api';
 import { Button } from '../../components/Button';
-const TextField = (props: { secureTextEntry?: boolean }) => {
+const TextField = (props: {
+  textInputProps?: TextInputProps & ClassAttributes<TextInput>;
+}) => {
   return (
     <View style={styles2.textField}>
       <TextInput
         style={{ height: 40, textAlign: 'center' }}
-        secureTextEntry={props.secureTextEntry}
+        {...props.textInputProps}
       />
     </View>
   );
@@ -16,14 +26,14 @@ const TextField = (props: { secureTextEntry?: boolean }) => {
 
 const Field = (props: {
   name: string;
-  textInputPros?: { secureTextEntry?: boolean };
+  textInputProps?: TextInputProps & ClassAttributes<TextInput>;
 }) => {
   return (
     <View>
       <View style={{ alignItems: 'center', paddingVertical: 10 }}>
         <Text>{props.name}</Text>
       </View>
-      <TextField secureTextEntry={props?.textInputPros?.secureTextEntry} />
+      <TextField textInputProps={props.textInputProps} />
     </View>
   );
 };
@@ -33,19 +43,100 @@ export default function SignUp({
 }: {
   navigation: NavigationProp<any>;
 }) {
+  const username = useRef<TextInput>();
+  const email = useRef<TextInput>();
+  const emailConfirmation = useRef<TextInput>();
+  const password = useRef<TextInput>();
+  const passwordConfirmation = useRef<TextInput>();
+  const firstName = useRef<TextInput>();
+  const lastName = useRef<TextInput>();
+
+  const submit = async () => {
+    try {
+      const response = await new Api().auth.register({
+        username: username.current?.props.value as string,
+        email: email.current?.props.value as string,
+        email_confirmation: emailConfirmation.current?.props.value as string,
+        password: password.current?.props.value as string,
+        password_confirmation: passwordConfirmation.current?.props
+          .value as string,
+        firstName: firstName.current?.props.value as string,
+        lastName: lastName.current?.props.value as string,
+      });
+      console.log(response);
+    } catch (e) {
+      if (lastName.current) {
+        // console.log(lastName.current.);
+      }
+    }
+  };
+
+  useEffect(() => {
+    lastName.current?.focus();
+  }, []);
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={{ fontSize: 30, paddingBottom: 10 }}>Inscription</Text>
-      <Field name="Nom d'utilisation" />
-      <Field name="Email" />
-      <Field name="Confirmation email" />
-      <Field name="Mot de passe" textInputPros={{ secureTextEntry: true }} />
+      <Field
+        name="Nom d'utilisation"
+        textInputProps={{
+          autoCompleteType: 'username',
+          textContentType: 'username',
+          ref: username,
+        }}
+      />
+      <Field
+        name="Email"
+        textInputProps={{
+          autoCompleteType: 'email',
+          textContentType: 'emailAddress',
+          keyboardType: 'email-address',
+          ref: email,
+        }}
+      />
+      <Field
+        name="Confirmation email"
+        textInputProps={{
+          autoCompleteType: 'email',
+          textContentType: 'emailAddress',
+          ref: emailConfirmation,
+        }}
+      />
+      <Field
+        name="Mot de passe"
+        textInputProps={{
+          secureTextEntry: true,
+          autoCompleteType: 'password',
+          textContentType: 'password',
+          ref: password,
+        }}
+      />
       <Field
         name="Confirmation mot de passe"
-        textInputPros={{ secureTextEntry: true }}
+        textInputProps={{
+          secureTextEntry: true,
+          autoCompleteType: 'password',
+          textContentType: 'password',
+          ref: passwordConfirmation,
+        }}
+      />
+      <Field
+        name="Prénom"
+        textInputProps={{
+          textContentType: 'name',
+          ref: firstName,
+        }}
+      />
+      <Field
+        name="Nom"
+        textInputProps={{
+          textContentType: 'familyName',
+          ref: lastName,
+        }}
       />
       <View style={{ padding: 30, width: 300 }}>
-        <Button name="valider" />
+        <Button name="valider" onPress={submit} />
       </View>
       <Text
         style={{
