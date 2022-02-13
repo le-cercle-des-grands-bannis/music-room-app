@@ -1,89 +1,50 @@
 import { NavigationProp } from '@react-navigation/native';
-import React, { ClassAttributes, useEffect, useRef } from 'react';
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TextInputProps,
-  View,
-} from 'react-native';
+import React, { useRef } from 'react';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import Api from '../../Api';
 import { Button } from '../../components/Button';
-const TextField = (props: {
-  textInputProps?: TextInputProps & ClassAttributes<TextInput>;
-}) => {
-  return (
-    <View style={styles2.textField}>
-      <TextInput
-        style={{ height: 40, textAlign: 'center' }}
-        {...props.textInputProps}
-      />
-    </View>
-  );
-};
-
-const Field = (props: {
-  name: string;
-  textInputProps?: TextInputProps & ClassAttributes<TextInput>;
-}) => {
-  return (
-    <View>
-      <View style={{ alignItems: 'center', paddingVertical: 10 }}>
-        <Text>{props.name}</Text>
-      </View>
-      <TextField textInputProps={props.textInputProps} />
-    </View>
-  );
-};
+import Field from './Field';
 
 export default function SignUp({
   navigation,
 }: {
   navigation: NavigationProp<any>;
 }) {
-  const username = useRef<TextInput>();
-  const email = useRef<TextInput>();
-  const emailConfirmation = useRef<TextInput>();
-  const password = useRef<TextInput>();
-  const passwordConfirmation = useRef<TextInput>();
-  const firstName = useRef<TextInput>();
-  const lastName = useRef<TextInput>();
+  const username = useRef<string>('');
+  const email = useRef<string>('');
+  const emailConfirmation = useRef<string>('');
+  const password = useRef<string>('');
+  const passwordConfirmation = useRef<string>('');
+  const firstName = useRef<string>('');
+  const lastName = useRef<string>('');
 
   const submit = async () => {
     try {
       const response = await new Api().auth.register({
-        username: username.current?.props.value as string,
-        email: email.current?.props.value as string,
-        email_confirmation: emailConfirmation.current?.props.value as string,
-        password: password.current?.props.value as string,
-        password_confirmation: passwordConfirmation.current?.props
-          .value as string,
-        firstName: firstName.current?.props.value as string,
-        lastName: lastName.current?.props.value as string,
+        username: username.current,
+        email: email.current,
+        email_confirmation: emailConfirmation.current,
+        password: password.current,
+        password_confirmation: passwordConfirmation.current,
+        firstName: firstName.current,
+        lastName: lastName.current,
       });
       console.log(response);
     } catch (e) {
-      if (lastName.current) {
-        // console.log(lastName.current.);
-      }
+      console.error(e.response.data);
     }
   };
-
-  useEffect(() => {
-    lastName.current?.focus();
-  }, []);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={{ fontSize: 30, paddingBottom: 10 }}>Inscription</Text>
       <Field
-        name="Nom d'utilisation"
+        name="Nom d'utilisateur"
         textInputProps={{
           autoCompleteType: 'username',
           textContentType: 'username',
-          ref: username,
+          onChangeText: value => (username.current = value),
         }}
       />
       <Field
@@ -92,7 +53,7 @@ export default function SignUp({
           autoCompleteType: 'email',
           textContentType: 'emailAddress',
           keyboardType: 'email-address',
-          ref: email,
+          onChangeText: value => (email.current = value),
         }}
       />
       <Field
@@ -100,7 +61,7 @@ export default function SignUp({
         textInputProps={{
           autoCompleteType: 'email',
           textContentType: 'emailAddress',
-          ref: emailConfirmation,
+          onChangeText: value => (emailConfirmation.current = value),
         }}
       />
       <Field
@@ -109,7 +70,7 @@ export default function SignUp({
           secureTextEntry: true,
           autoCompleteType: 'password',
           textContentType: 'password',
-          ref: password,
+          onChangeText: value => (password.current = value),
         }}
       />
       <Field
@@ -118,21 +79,21 @@ export default function SignUp({
           secureTextEntry: true,
           autoCompleteType: 'password',
           textContentType: 'password',
-          ref: passwordConfirmation,
+          onChangeText: value => (passwordConfirmation.current = value),
         }}
       />
       <Field
         name="Prénom"
         textInputProps={{
           textContentType: 'name',
-          ref: firstName,
+          onChangeText: value => (firstName.current = value),
         }}
       />
       <Field
         name="Nom"
         textInputProps={{
           textContentType: 'familyName',
-          ref: lastName,
+          onChangeText: value => (lastName.current = value),
         }}
       />
       <View style={{ padding: 30, width: 300 }}>
@@ -169,21 +130,5 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     borderWidth: 1,
     borderColor: '#fff',
-  },
-});
-
-const styles2 = StyleSheet.create({
-  textField: {
-    // flex: 1,
-    flexShrink: 1,
-    justifyContent: 'center',
-    backgroundColor: '#d3d3d3',
-    borderRadius: 20,
-    borderStyle: 'solid',
-    borderColor: '#000',
-    borderWidth: 3,
-    width: 200,
-    height: 40,
-    paddingHorizontal: 10,
   },
 });

@@ -1,40 +1,44 @@
-import {View, TextInput, Text, StyleSheet} from 'react-native';
-import React from 'react';
-import {Button} from '../../components/Button';
+import React, { useRef } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 
-const TextField = (props: {secureTextEntry?: boolean}) => {
-  return (
-    <View style={styles2.textField}>
-      <TextInput
-        style={{height: 40, textAlign: 'center'}}
-        secureTextEntry={props.secureTextEntry}
-      />
-    </View>
-  );
-};
+import Api from '../../Api';
+import { Button } from '../../components/Button';
+import Field from './Field';
 
-const Field = (props: {
-  name: string;
-  textInputPros?: {secureTextEntry?: boolean};
-}) => {
-  return (
-    <View>
-      <View style={{alignItems: 'center', paddingVertical: 10}}>
-        <Text>{props.name}</Text>
-      </View>
-      <TextField secureTextEntry={props?.textInputPros?.secureTextEntry} />
-    </View>
-  );
-};
+export default function SignIn({ navigation }) {
+  const email = useRef<string>('');
+  const password = useRef<string>('');
 
-export default function SignIn({navigation}) {
+  const submit = async () => {
+    try {
+      const response = await new Api().users.login({
+        email: email.current,
+        password: password.current,
+      });
+      // console.log(response.data);
+      const meResponse = await new Api().users.me();
+      console.log(meResponse.data);
+    } catch (e) {
+      console.error(e.response?.data);
+    }
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={{fontSize: 30, paddingBottom: 40}}>Connexion</Text>
-      <Field name={'Email'} />
-      <Field name={'Mot de passe'} textInputPros={{secureTextEntry: true}} />
-      <View style={{padding: 30, width: 300}}>
-        <Button name={'valider'} onPress={() => console.log('test')} />
+      <Text style={{ fontSize: 30, paddingBottom: 40 }}>Connexion</Text>
+      <Field
+        name="Email"
+        textInputProps={{ onChangeText: value => (email.current = value) }}
+      />
+      <Field
+        name="Mot de passe"
+        textInputProps={{
+          secureTextEntry: true,
+          onChangeText: value => (password.current = value),
+        }}
+      />
+      <View style={{ marginTop: 30, marginVertical: 20, width: 200 }}>
+        <Button name="valider" onPress={submit} />
       </View>
       <Text
         style={{
@@ -42,6 +46,18 @@ export default function SignIn({navigation}) {
           color: 'white',
           padding: 10,
           borderRadius: 20,
+          margin: 10,
+        }}
+        onPress={() => navigation.navigate('ForgotPassword')}>
+        J'ai oublié mon mot de passe
+      </Text>
+      <Text
+        style={{
+          backgroundColor: '#464646',
+          color: 'white',
+          padding: 10,
+          borderRadius: 20,
+          margin: 10,
         }}
         onPress={() => navigation.navigate('SignUp')}>
         Je n'ai pas de compte
@@ -53,7 +69,7 @@ export default function SignIn({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexShrink: 1,
+    // flexShrink: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
