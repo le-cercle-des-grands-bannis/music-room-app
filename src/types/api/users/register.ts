@@ -1,7 +1,5 @@
 export interface UsersRegisterPayload {
   username: string;
-  firstName: string;
-  lastName: string;
   email: string;
   email_confirmation: string;
   password: string;

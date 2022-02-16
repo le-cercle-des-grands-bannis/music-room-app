@@ -16,19 +16,15 @@ export default function SignUp({
   const emailConfirmation = useRef<string>('');
   const password = useRef<string>('');
   const passwordConfirmation = useRef<string>('');
-  const firstName = useRef<string>('');
-  const lastName = useRef<string>('');
 
   const submit = async () => {
     try {
-      const response = await new Api().auth.register({
+      const response = await new Api().users.register({
         username: username.current,
         email: email.current,
         email_confirmation: emailConfirmation.current,
         password: password.current,
         password_confirmation: passwordConfirmation.current,
-        firstName: firstName.current,
-        lastName: lastName.current,
       });
       console.log(response);
     } catch (e) {
@@ -80,20 +76,6 @@ export default function SignUp({
           autoCompleteType: 'password',
           textContentType: 'password',
           onChangeText: value => (passwordConfirmation.current = value),
-        }}
-      />
-      <Field
-        name="Prénom"
-        textInputProps={{
-          textContentType: 'name',
-          onChangeText: value => (firstName.current = value),
-        }}
-      />
-      <Field
-        name="Nom"
-        textInputProps={{
-          textContentType: 'familyName',
-          onChangeText: value => (lastName.current = value),
         }}
       />
       <View style={{ padding: 30, width: 300 }}>

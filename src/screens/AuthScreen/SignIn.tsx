@@ -1,9 +1,13 @@
-import React, { useRef } from 'react';
+import Constants from 'expo-constants';
+import * as Linking from 'expo-linking';
+import * as WebBrowser from 'expo-web-browser';
+import React, { useEffect, useRef } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 import Api from '../../Api';
 import { Button } from '../../components/Button';
 import Field from './Field';
+import SocialAuth from '../../components/Auth/SocialAuth';
 
 export default function SignIn({ navigation }) {
   const email = useRef<string>('');
@@ -15,13 +19,40 @@ export default function SignIn({ navigation }) {
         email: email.current,
         password: password.current,
       });
-      // console.log(response.data);
+      console.log(response);
       const meResponse = await new Api().users.me();
       console.log(meResponse.data);
     } catch (e) {
       console.error(e.response?.data);
     }
   };
+
+  const _openAuthSessionAsync = async () => {
+    try {
+      const result = await WebBrowser.openAuthSessionAsync(
+        `http://10.0.2.2:4242/users/login/discord/redirect?redirectUrl=${Linking.createURL(
+          '/',
+        )}`,
+        Constants.linkingUri,
+      );
+      let redirectData;
+      if (result.type === 'success' && result.url) {
+        redirectData = Linking.parse(result.url);
+        console.log(result.url);
+      }
+      console.log(redirectData);
+      const meResponse = await new Api().users.me();
+      console.log(meResponse.data);
+    } catch (error) {
+      alert(error);
+      console.log(error);
+    }
+  };
+
+  const _handleOpenWithWebBrowser = async () => {
+    await WebBrowser.openBrowserAsync('http://10.0.2.2:4242');
+  };
+  console.log(Linking.createURL('/'));
 
   return (
     <View style={styles.container}>
@@ -37,8 +68,11 @@ export default function SignIn({ navigation }) {
           onChangeText: value => (password.current = value),
         }}
       />
-      <View style={{ marginTop: 30, marginVertical: 20, width: 200 }}>
+      <View style={{ marginTop: 30, width: 200 }}>
         <Button name="valider" onPress={submit} />
+      </View>
+      <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginVertical: 20 }}>
+        <SocialAuth/>
       </View>
       <Text
         style={{
@@ -62,6 +96,7 @@ export default function SignIn({ navigation }) {
         onPress={() => navigation.navigate('SignUp')}>
         Je n'ai pas de compte
       </Text>
+      <Text onPress={_openAuthSessionAsync}>42</Text>
     </View>
   );
 }
