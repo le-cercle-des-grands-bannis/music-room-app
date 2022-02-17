@@ -31,17 +31,20 @@ import thunk from 'redux-thunk';
 import { lang } from './src/helpers/translations/setLanguage';
 import AppNavigator from './src/navigation/Navigator';
 import rootReducer from './src/redux/reduxReducers/rootReducer';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
 const App = () => {
   return (
-    <Provider store={store}>
-      <NativeBaseProvider>
-        {/*// @ts-ignore*/}
-        <AppNavigator lang={lang} />
-      </NativeBaseProvider>
-    </Provider>
+    <SafeAreaProvider>
+      <Provider store={store}>
+        <NativeBaseProvider>
+          {/*// @ts-ignore*/}
+          <AppNavigator lang={lang} />
+        </NativeBaseProvider>
+      </Provider>
+    </SafeAreaProvider>
   );
 };
 
