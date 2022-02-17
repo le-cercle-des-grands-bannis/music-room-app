@@ -8,6 +8,7 @@ import Api from '../../Api';
 import { Button } from '../../components/Button';
 import Field from './Field';
 import SocialAuth from '../../components/Auth/SocialAuth';
+import { save } from '../../utils/authUtils';
 
 export default function SignIn({ navigation }) {
   const email = useRef<string>('');
@@ -20,8 +21,6 @@ export default function SignIn({ navigation }) {
         password: password.current,
       });
       console.log(response);
-      const meResponse = await new Api().users.me();
-      console.log(meResponse.data);
     } catch (e) {
       console.error(e.response?.data);
     }
@@ -30,7 +29,7 @@ export default function SignIn({ navigation }) {
   const _openAuthSessionAsync = async () => {
     try {
       const result = await WebBrowser.openAuthSessionAsync(
-        `http://10.0.2.2:4242/users/login/discord/redirect?redirectUrl=${Linking.createURL(
+        `https://dev.api.musicroom.benjaminnoufel.com/users/login/discord/redirect?redirectUrl=${Linking.createURL(
           '/',
         )}`,
         Constants.linkingUri,
@@ -39,6 +38,7 @@ export default function SignIn({ navigation }) {
       if (result.type === 'success' && result.url) {
         redirectData = Linking.parse(result.url);
         console.log(result.url);
+        await save('userToken', redirectData.queryParams.token);
       }
       console.log(redirectData);
       const meResponse = await new Api().users.me();
@@ -48,11 +48,6 @@ export default function SignIn({ navigation }) {
       console.log(error);
     }
   };
-
-  const _handleOpenWithWebBrowser = async () => {
-    await WebBrowser.openBrowserAsync('http://10.0.2.2:4242');
-  };
-  console.log(Linking.createURL('/'));
 
   return (
     <View style={styles.container}>

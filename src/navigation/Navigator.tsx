@@ -3,13 +3,14 @@ import { createStackNavigator } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
 
-import { lang } from '../helpers/translations/setLanguage';
-import translations from '../helpers/translations/translations';
+// import { lang } from '../helpers/translations/setLanguage';
+// import translations from '../helpers/translations/translations';
+import Playlists from '../screens/AppScreen/Playlists';
 import ForgotPassword from '../screens/AuthScreen/ForgotPassword';
 import SignIn from '../screens/AuthScreen/SignIn';
 import SignUp from '../screens/AuthScreen/SignUp';
 import { NavigatorParam } from './NavigatorParam';
-import Playlists from '../screens/AppScreen/Playlists';
+import DrawerNavigator from './DrawerNavigator';
 
 const Stack = createStackNavigator<NavigatorParam>();
 
@@ -20,23 +21,19 @@ const AppNavigator = () => {
     <SafeAreaView style={styles.container}>
       {/*// @ts-ignore*/}
 
-      <NavigationContainer value={{ lang: translations[lang] }}>
-        <Stack.Navigator
-          screenOptions={{
-            headerShown: false,
-          }}>
-          {isLoggedIn === false ? (
-            <>
-              <Stack.Screen name="SignIn" component={SignIn} />
-              <Stack.Screen name="SignUp" component={SignUp} />
-              <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
-            </>
-          ) : (
-            <>
-              <Stack.Screen name="Playlists" component={Playlists}/>
-            </>
-          )}
-        </Stack.Navigator>
+      <NavigationContainer>
+        {isLoggedIn === false ? (
+          <Stack.Navigator
+            screenOptions={{
+              headerShown: false,
+            }}>
+            <Stack.Screen name="SignIn" component={SignIn} />
+            <Stack.Screen name="SignUp" component={SignUp} />
+            <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+          </Stack.Navigator>
+        ) : (
+          <DrawerNavigator/>
+        )}
       </NavigationContainer>
     </SafeAreaView>
   );
