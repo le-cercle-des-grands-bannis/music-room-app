@@ -7,21 +7,25 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
+import { useDrawerStatus } from '@react-navigation/drawer';
 
 const ThreeLines = (props: {onPress?: Function}) => {
   const rotationAnim = useRef(new Animated.Value(0)).current;
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
+  const isDrawerOpen = useDrawerStatus() === 'open';
+
+  useEffect(() => {
+    Animated.timing(rotationAnim, {
+      toValue: isDrawerOpen ? 1 : 0,
+      duration: 400,
+      useNativeDriver: true,
+    }).start();
+  }, [isDrawerOpen]);
   const onPress = () => {
     if (props.onPress) {
       props.onPress();
     }
-    Animated.timing(rotationAnim, {
-      toValue: !isOpen ? 1 : 0,
-      duration: 400,
-      useNativeDriver: true,
-    }).start();
-    setIsOpen(!isOpen);
   };
 
   const spin = rotationAnim.interpolate({

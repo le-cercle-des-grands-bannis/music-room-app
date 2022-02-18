@@ -4,8 +4,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import ThreeLines from '../../components/ThreeLines';
 import PlaylistCard from '../../components/playlists/PlaylistCard';
+import Color from '../../constants/Colors';
 
 const Rooms: React.FC = props => {
+  const rooms = new Array(10).fill(undefined).map((value, index) => {
+    return { name: `Room ${index + 1}` };
+  });
   return (
     <SafeAreaView style={styles.mainContainer}>
       <View
@@ -24,16 +28,9 @@ const Rooms: React.FC = props => {
         contentContainerStyle={styles.scrollContainer}
         overScrollMode="never"
         showsVerticalScrollIndicator={false}>
-        <PlaylistCard playlistName="playlist 1" />
-        <PlaylistCard playlistName="playlist 2" />
-        <PlaylistCard playlistName="playlist 3" />
-        <PlaylistCard playlistName="playlist 4" />
-        <PlaylistCard playlistName="playlist 5" />
-        <PlaylistCard playlistName="playlist 6" />
-        <PlaylistCard playlistName="playlist 7" />
-        <PlaylistCard playlistName="playlist 8" />
-        <PlaylistCard playlistName="playlist 9" />
-        <PlaylistCard playlistName="playlist 10" />
+        {rooms.map((room, index) => {
+          return <PlaylistCard key={index} playlistName={room.name} />;
+        })}
       </ScrollView>
     </SafeAreaView>
   );
@@ -41,7 +38,7 @@ const Rooms: React.FC = props => {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    backgroundColor: '#333',
+    backgroundColor: Color.background,
     height: '100%',
   },
   scrollContainer: {
