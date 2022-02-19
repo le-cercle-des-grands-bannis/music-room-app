@@ -1,16 +1,20 @@
 import { NavigationProp } from '@react-navigation/native';
+import { register } from '@redux/auth/auth.slice';
+import { AppDispatch } from '@redux/store';
 import React, { useRef } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useDispatch } from 'react-redux';
 
-import Api from '../../Api';
-import { Button } from '../../components/Button';
-import Field from './Field';
+import { Button } from '../../../components/Button';
+import Field from '../Field';
 
 export default function SignUp({
   navigation,
 }: {
   navigation: NavigationProp<any>;
 }) {
+  const dispatch = useDispatch<AppDispatch>();
+
   const username = useRef<string>('');
   const email = useRef<string>('');
   const emailConfirmation = useRef<string>('');
@@ -19,14 +23,15 @@ export default function SignUp({
 
   const submit = async () => {
     try {
-      const response = await new Api().users.register({
-        username: username.current,
-        email: email.current,
-        email_confirmation: emailConfirmation.current,
-        password: password.current,
-        password_confirmation: passwordConfirmation.current,
-      });
-      console.log(response);
+      dispatch(
+        register({
+          username: username.current,
+          email: email.current,
+          email_confirmation: emailConfirmation.current,
+          password: password.current,
+          password_confirmation: passwordConfirmation.current,
+        }),
+      );
     } catch (e) {
       console.error(e.response.data);
     }
