@@ -1,53 +1,53 @@
-import Constants from 'expo-constants';
-import * as Linking from 'expo-linking';
-import * as WebBrowser from 'expo-web-browser';
-import React, { useEffect, useRef } from 'react';
+import { login } from '@redux/auth/auth.slice';
+import React, { useRef, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { Checkbox } from 'react-native-paper';
 
-import Api from '../../Api';
-import { Button } from '../../components/Button';
-import Field from './Field';
 import SocialAuth from '../../components/Auth/SocialAuth';
-import { save } from '../../utils/authUtils';
+import { Button } from '../../components/Button';
+import { useAppDispatch } from '../../hooks/redux';
+import Field from './Field';
 
 export default function SignIn({ navigation }) {
+  const dispatch = useAppDispatch();
+
   const email = useRef<string>('');
   const password = useRef<string>('');
+  const [rememberMe, setRememberMe] = useState<boolean>(false);
 
   const submit = async () => {
     try {
-      const response = await new Api().users.login({
-        email: email.current,
-        password: password.current,
-      });
-      console.log(response);
+      dispatch(
+        login({
+          email: email.current,
+          password: password.current,
+          rememberMe,
+        }),
+      );
     } catch (e) {
-      console.error(e.response?.data);
+      console.error(e);
     }
   };
 
-  const _openAuthSessionAsync = async () => {
-    try {
-      const result = await WebBrowser.openAuthSessionAsync(
-        `https://dev.api.musicroom.benjaminnoufel.com/users/login/discord/redirect?redirectUrl=${Linking.createURL(
-          '/',
-        )}`,
-        Constants.linkingUri,
-      );
-      let redirectData;
-      if (result.type === 'success' && result.url) {
-        redirectData = Linking.parse(result.url);
-        console.log(result.url);
-        await save('userToken', redirectData.queryParams.token);
-      }
-      console.log(redirectData);
-      const meResponse = await new Api().users.me();
-      console.log(meResponse.data);
-    } catch (error) {
-      alert(error);
-      console.log(error);
-    }
-  };
+  // const _openAuthSessionAsync = async () => {
+  //   try {
+  //     const result = await WebBrowser.openAuthSessionAsync(
+  //       `http://10.0.2.2:4242/users/login/discord/redirect?redirectUrl=${Linking.createURL(
+  //         '/',
+  //       )}`,
+  //       Constants.linkingUri,
+  //     );
+  //     let redirectData;
+  //     if (result.type === 'success' && result.url) {
+  //       redirectData = Linking.parse(result.url);
+  //       console.log(result.url);
+  //     }
+  //     console.log(redirectData);
+  //   } catch (error) {
+  //     alert(error);
+  //     console.log(error);
+  //   }
+  // };
 
   return (
     <View style={styles.container}>
@@ -63,11 +63,31 @@ export default function SignIn({ navigation }) {
           onChangeText: value => (password.current = value),
         }}
       />
-      <View style={{ marginTop: 30, width: 200 }}>
+      <View
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          marginTop: 10,
+        }}>
+        <Text>Se souvenir de moi</Text>
+        <Checkbox
+          status={rememberMe ? 'checked' : 'unchecked'}
+          onPress={() => setRememberMe(prevState => !prevState)}
+          color="grey"
+        />
+      </View>
+      <View style={{ marginTop: 10, width: 200 }}>
         <Button name="valider" onPress={submit} />
       </View>
-      <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginVertical: 20 }}>
-        <SocialAuth/>
+      <View
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          marginVertical: 20,
+        }}>
+        <SocialAuth />
       </View>
       <Text
         style={{
@@ -91,7 +111,6 @@ export default function SignIn({ navigation }) {
         onPress={() => navigation.navigate('SignUp')}>
         Je n'ai pas de compte
       </Text>
-      <Text onPress={_openAuthSessionAsync}>42</Text>
     </View>
   );
 }
@@ -99,7 +118,6 @@ export default function SignIn({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // flexShrink: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -113,21 +131,5 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     borderWidth: 1,
     borderColor: '#fff',
-  },
-});
-
-const styles2 = StyleSheet.create({
-  textField: {
-    // flex: 1,
-    flexShrink: 1,
-    justifyContent: 'center',
-    backgroundColor: '#d3d3d3',
-    borderRadius: 20,
-    borderStyle: 'solid',
-    borderColor: '#000',
-    borderWidth: 3,
-    width: 200,
-    height: 40,
-    paddingHorizontal: 10,
   },
 });

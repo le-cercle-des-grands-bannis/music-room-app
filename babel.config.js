@@ -9,6 +9,8 @@ module.exports = function (api) {
           extensions: ['.ios.js', '.android.js', '.js', '.ts', '.tsx', '.json'],
           alias: {
             '@assets': './assets',
+            '@services': './src/services',
+            '@redux': './src/redux',
           },
         },
       ],

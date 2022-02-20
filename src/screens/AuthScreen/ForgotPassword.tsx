@@ -1,18 +1,18 @@
+import { resetPassword } from '@redux/auth/auth.slice';
 import React, { useRef } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-import Api from '../../Api';
 import { Button } from '../../components/Button';
+import { useAppDispatch } from '../../hooks/redux';
 import Field from './Field';
 
-export default function ForgotPassword({ navigation }) {
+export default function ForgotPassword() {
+  const dispatch = useAppDispatch();
   const email = useRef<string>('');
 
   const submit = async () => {
     try {
-      await new Api().users.password.reset({
-        email: email.current,
-      });
+      dispatch(resetPassword({ email: email.current }));
     } catch (e) {
       console.error(e.response?.data);
     }
@@ -37,7 +37,6 @@ export default function ForgotPassword({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // flexShrink: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },

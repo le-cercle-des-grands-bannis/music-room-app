@@ -1,4 +1,4 @@
-export interface UsersRegisterPayload {
+export interface RegisterPayload {
   username: string;
   email: string;
   email_confirmation: string;
@@ -6,6 +6,8 @@ export interface UsersRegisterPayload {
   password_confirmation: string;
 }
 
-export interface UsersRegisterResponse {
-  payload: string;
+export interface RegisterResponse {
+  oat: {
+    token: string;
+  };
 }

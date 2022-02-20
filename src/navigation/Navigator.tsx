@@ -1,29 +1,32 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import React, { useState } from 'react';
+import { selectAuth } from '@redux/auth/auth.slice';
+import React from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
 
-// import { lang } from '../helpers/translations/setLanguage';
-// import translations from '../helpers/translations/translations';
-import Playlists from '../screens/AppScreen/Playlists';
+import NotificationStack from '../components/Notification/NotificationStack';
+import { lang } from '../helpers/translations/setLanguage';
+import translations from '../helpers/translations/translations';
+import { useAppSelector } from '../hooks/redux';
 import ForgotPassword from '../screens/AuthScreen/ForgotPassword';
 import SignIn from '../screens/AuthScreen/SignIn';
-import SignUp from '../screens/AuthScreen/SignUp';
-import { NavigatorParam } from './NavigatorParam';
+import SignUp from '../screens/AuthScreen/SignUp/SignUp';
 import DrawerNavigator from './DrawerNavigator';
+import { NavigatorParam } from './NavigatorParam';
 
 const Stack = createStackNavigator<NavigatorParam>();
 
 const AppNavigator = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
+  const { isLoggedIn } = useAppSelector(selectAuth);
 
   return (
     <SafeAreaView style={styles.container}>
       {/*// @ts-ignore*/}
 
-      <NavigationContainer>
-        {isLoggedIn === false ? (
+      <NavigationContainer value={{ lang: translations[lang] }}>
+        {!isLoggedIn ? (
           <Stack.Navigator
+            initialRouteName="SignIn"
             screenOptions={{
               headerShown: false,
             }}>
@@ -32,9 +35,10 @@ const AppNavigator = () => {
             <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
           </Stack.Navigator>
         ) : (
-          <DrawerNavigator/>
+          <DrawerNavigator />
         )}
       </NavigationContainer>
+      <NotificationStack />
     </SafeAreaView>
   );
 };

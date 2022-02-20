@@ -16,7 +16,6 @@ export default TextField;
 
 const styles2 = StyleSheet.create({
   textField: {
-    // flex: 1,
     flexShrink: 1,
     justifyContent: 'center',
     backgroundColor: '#d3d3d3',
