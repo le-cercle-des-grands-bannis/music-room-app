@@ -6,22 +6,21 @@ import {
   DrawerItemList,
   useDrawerProgress,
 } from '@react-navigation/drawer';
-import { Alert, SafeAreaView, ScrollView } from 'react-native';
-import Animated from 'react-native-reanimated';
+import { logout } from '@redux/auth/auth.slice';
+import { SafeAreaView, ScrollView } from 'react-native';
 
+import { useAppDispatch } from '../hooks/redux';
 import BottomTabNavigator from './BottomTabNavigator';
 
 const Drawer = createDrawerNavigator();
 
-const CustomDrawerItemList = () => {};
-
 function CustomDrawerContent(props: DrawerContentComponentProps) {
-  console.log(props);
+  const dispatch = useAppDispatch();
   return (
     <ScrollView style={{ backgroundColor: 'grey' }}>
       <SafeAreaView style={{ flex: 1 }}>
         <DrawerItemList {...props} />
-        <DrawerItem label="Help" onPress={() => Alert.alert('test')} />
+        <DrawerItem label="Déconnexion" onPress={() => dispatch(logout())} />
       </SafeAreaView>
     </ScrollView>
   );
@@ -32,7 +31,6 @@ const DrawerNavigator = () => {
     <Drawer.Navigator
       detachInactiveScreens
       screenOptions={{
-
         headerShown: false,
         swipeEnabled: false,
         drawerType: 'slide',

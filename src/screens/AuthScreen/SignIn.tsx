@@ -1,5 +1,6 @@
-import { login } from '@redux/auth/auth.slice';
-import React, { useRef, useState } from 'react';
+import { autoLogin, login } from '@redux/auth/auth.slice';
+import * as SecureStore from 'expo-secure-store';
+import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Checkbox } from 'react-native-paper';
 
@@ -10,6 +11,10 @@ import Field from './Field';
 
 export default function SignIn({ navigation }) {
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(autoLogin());
+  }, []);
 
   const email = useRef<string>('');
   const password = useRef<string>('');
