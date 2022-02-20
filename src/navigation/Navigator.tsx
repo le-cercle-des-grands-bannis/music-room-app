@@ -1,30 +1,48 @@
-import {NavigationContainer} from '@react-navigation/native';
-import Auth from '../screens/AuthScreen/Auth';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { selectAuth } from '@redux/auth/auth.slice';
 import React from 'react';
-import {SafeAreaView, StyleSheet} from 'react-native';
-import {createStackNavigator} from '@react-navigation/stack';
-import {NavigatorParam} from './NavigatorParam';
-import Splash from '../screens/AuthScreen/Splash';
+import { SafeAreaView, StyleSheet } from 'react-native';
+
+import NotificationStack from '../components/Notification/NotificationStack';
+import { lang } from '../helpers/translations/setLanguage';
 import translations from '../helpers/translations/translations';
-import {lang} from '../helpers/translations/setLanguage';
+import { useAppSelector } from '../hooks/redux';
+import ForgotPassword from '../screens/AuthScreen/ForgotPassword';
+import SignIn from '../screens/AuthScreen/SignIn';
+import SignUp from '../screens/AuthScreen/SignUp/SignUp';
+import Test from '../screens/Test';
+import { NavigatorParam } from './NavigatorParam';
 
 const Stack = createStackNavigator<NavigatorParam>();
 
 const AppNavigator = () => {
+  const { isLoggedIn } = useAppSelector(selectAuth);
+
   return (
     <SafeAreaView style={styles.container}>
       {/*// @ts-ignore*/}
 
-      <NavigationContainer value={{lang: translations[lang]}}>
+      <NavigationContainer value={{ lang: translations[lang] }}>
         <Stack.Navigator
-          initialRouteName="Splash"
+          initialRouteName="SignIn"
           screenOptions={{
             headerShown: false,
           }}>
-          <Stack.Screen name="Splash" component={Splash} />
-          <Stack.Screen name="Auth" component={Auth} />
+          {!isLoggedIn ? (
+            <>
+              <Stack.Screen name="SignUp" component={SignUp} />
+              <Stack.Screen name="SignIn" component={SignIn} />
+              <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+            </>
+          ) : (
+            <>
+              <Stack.Screen name="Test" component={Test} />
+            </>
+          )}
         </Stack.Navigator>
       </NavigationContainer>
+      <NotificationStack />
     </SafeAreaView>
   );
 };

@@ -1,9 +1,14 @@
-import {StackNavigationProp} from '@react-navigation/stack';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 export type NavigatorParam = {
-  Splash: undefined;
-  Auth: undefined;
+  SignUp: undefined;
+  SignIn: undefined;
+  ForgotPassword: undefined;
 };
 
-export type authProps = StackNavigationProp<NavigatorParam, 'Auth'>;
-export type splashProps = StackNavigationProp<NavigatorParam, 'Splash'>; // To remove when automatic redirection is UP
+export type signInProps = StackNavigationProp<NavigatorParam, 'SignIn'>;
+export type signUpProps = StackNavigationProp<NavigatorParam, 'SignUp'>;
+export type ForgotPasswordProps = StackNavigationProp<
+  NavigatorParam,
+  'ForgotPassword'
+>;

@@ -1,16 +1,17 @@
-import React, {useEffect} from 'react';
-import {StyleSheet, View, ActivityIndicator, StatusBar} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {splashProps} from '../../navigation/NavigatorParam';
-import {fetchUserAction} from '../../redux/reduxActions/auth';
-import {useDispatch} from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+import { fetchUserAction } from '@redux/reduxActions/auth';
+import React, { useEffect } from 'react';
+import { StyleSheet, View, ActivityIndicator, StatusBar } from 'react-native';
+import { useDispatch } from 'react-redux';
+
+import { signUpProps } from '../../navigation/NavigatorParam';
+
 const Splash = () => {
-  const navigation = useNavigation<splashProps>(); // To remove when automatic redirection is UP
+  const navigation = useNavigation<signUpProps>(); // To remove when automatic redirection is UP
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // @ts-ignore
     dispatch(fetchUserAction(navigation));
   }, [dispatch, navigation]);
 

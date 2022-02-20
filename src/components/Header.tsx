@@ -9,8 +9,7 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import {viewSizes} from '../config/styles';
 
-// @ts-ignore
-import arrowRight from '../assets/icons/arrowRight.png';
+import arrowRight from '../../assets/icons/arrowRight.png';
 
 const Header = () => {
   const navigation = useNavigation();

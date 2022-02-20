@@ -1,4 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import { USER } from '../../helpers/interfaces/user';
 import {
   REQUEST_USER_START,
   SIGN_IN_USER_SUCCESS,
@@ -18,13 +20,12 @@ import {
   userUpdate,
   userRegister,
 } from '../reduxServices/auth';
-import {USER} from '../../helpers/interfaces/user';
 
 export const fetchUserAction = (navigation: {
   replace: (arg0: string) => void;
 }) => {
   return async (
-    dispatch: (arg0: {type: string; user?: any; error?: any}) => void,
+    dispatch: (arg0: { type: string; user?: any; error?: any }) => void,
   ) => {
     const token = await AsyncStorage.getItem('TOKEN');
     if (token) {
@@ -68,7 +69,7 @@ export const loginUserAction = (
   onError: any,
 ) => {
   return (
-    dispatch: (arg0: {type: string; user?: any; error?: any}) => void,
+    dispatch: (arg0: { type: string; user?: any; error?: any }) => void,
   ) => {
     dispatch({
       type: REQUEST_USER_START,
@@ -106,7 +107,7 @@ export const registerUserAction = (
   onError: any,
 ) => {
   return (
-    dispatch: (arg0: {type: string; user?: any; error?: any}) => void,
+    dispatch: (arg0: { type: string; user?: any; error?: any }) => void,
   ) => {
     dispatch({
       type: REQUEST_USER_START,
@@ -178,7 +179,7 @@ export const updateUserAction = (user: USER, onMount: any) => {
 };
 
 export const logoutUserAction = (navigation: any) => {
-  return (dispatch: (arg0: {type: string; error?: any}) => void) => {
+  return (dispatch: (arg0: { type: string; error?: any }) => void) => {
     dispatch({
       type: REQUEST_USER_START,
     });
@@ -207,7 +208,7 @@ export const logoutUserAction = (navigation: any) => {
 };
 
 export const clearUserErrors = () => {
-  return (dispatch: (arg0: {type: string}) => void) => {
+  return (dispatch: (arg0: { type: string }) => void) => {
     dispatch({
       type: USER_CLEAR_ERROR,
     });
