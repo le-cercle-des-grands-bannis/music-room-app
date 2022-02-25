@@ -11,6 +11,7 @@ import { SafeAreaView, ScrollView } from 'react-native';
 
 import { useAppDispatch } from '../hooks/redux';
 import BottomTabNavigator from './BottomTabNavigator';
+import PremiumStackNavigator from './PremiumStackNavigator';
 
 const Drawer = createDrawerNavigator();
 
@@ -38,6 +39,7 @@ const DrawerNavigator = () => {
       }}
       drawerContent={CustomDrawerContent}>
       <Drawer.Screen name="Home" component={BottomTabNavigator} />
+      <Drawer.Screen name="Premium" component={PremiumStackNavigator} />
       {/*<Drawer.Screen name="Settings" component={} />*/}
     </Drawer.Navigator>
   );
