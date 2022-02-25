@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -8,14 +8,26 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import * as Linking from 'expo-linking'
+
 import ThreeLines from '../../components/ThreeLines';
 import PlaylistCard from '../../components/playlists/PlaylistCard';
 import Color from '../../constants/Colors';
+import SpotifyService from '@services/SpotifyService';
 
 const Playlists: React.FC = ({ navigation }) => {
   const playlists = new Array(4).fill(undefined).map((value, index) => {
     return { name: `Playlist ${index + 1}` };
   });
+  console.log(Linking.createURL('/'));
+
+  // useEffect(() => {
+  //   (async () => {
+  //     await SpotifyService.init();
+  //     const spotify = new SpotifyService();
+  //     await spotify.play();
+  //   })();
+  // }, []);
 
   return (
     <SafeAreaView style={styles.mainContainer}>
