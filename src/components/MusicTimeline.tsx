@@ -1,20 +1,15 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import {
   Animated,
-  TouchableHighlight,
   TouchableOpacity,
-  TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import { PanGestureHandler } from 'react-native-gesture-handler';
-import { AnimatedFAB } from 'react-native-paper';
-
-import { auth } from 'react-native-spotify-remote'
 
 import PauseIcon from './icons/PauseIcon';
 import PlayIcon from './icons/PlayIcon';
 
-const clamp = (value: number, min: number, max: number): number => {
+export const clamp = (value: number, min: number, max: number): number => {
   return Math.max(Math.min(value, max), min);
 };
 
