@@ -23,7 +23,7 @@ export default class AuthService {
       'Accept-language': 'fr',
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      'X-AUTH': 'api',
+      'X-AUTH': 'API',
     },
     timeout: 5000,
   });
@@ -32,7 +32,7 @@ export default class AuthService {
     payload: RegisterPayload,
   ): Promise<AxiosResponse<RegisterResponse>> {
     const response = await this.api.post<RegisterResponse>(
-      '/users/register',
+      '/register',
       payload,
     );
     if (response.data.oat.token !== undefined) {
@@ -46,7 +46,7 @@ export default class AuthService {
 
   async login(payload: LoginPayload): Promise<AxiosResponse<LoginResponse>> {
     const response = await this.api.post<LoginResponse>(
-      '/users/login',
+      '/login',
       payload,
     );
     if (response.data?.oat?.token !== undefined) {
@@ -59,6 +59,7 @@ export default class AuthService {
   }
 
   async logout(): Promise<void> {
+    await this.api.delete('/logout');
     return SecureStore.deleteItemAsync(SecureStoreConstant.API_USER_TOKEN);
   }
 

@@ -1,6 +1,7 @@
 import { RootState } from '@redux/store';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import AuthService from '@services/AuthService';
+import UserService from '@services/UserService';
 import axios, { AxiosError } from 'axios';
 
 import { LoginPayload } from '../../types/services/authService/login';
@@ -12,8 +13,8 @@ import { addMessage } from '../message/message.slice';
 //   isLoggedIn: boolean;
 // }
 
-const isAxiosError = <T = any>(payload: any): payload is AxiosError<T> => {
-  return axios.isAxiosError(payload);
+const isAxiosError = <T = any>(error: any): error is AxiosError<T> => {
+  return axios.isAxiosError(error);
 };
 
 function handleApiErrorThunk(error: any, thunkAPI: any) {
@@ -29,6 +30,7 @@ function handleApiErrorThunk(error: any, thunkAPI: any) {
         );
       });
     } else {
+      console.error(error);
       thunkAPI.dispatch(
         addMessage({
           content: 'Une erreur inconnue est survenu',
@@ -82,6 +84,17 @@ export const resetPassword = createAsyncThunk(
   },
 );
 
+export const autoLogin = createAsyncThunk(
+  'auth/autoLogin',
+  async (props, thunkAPI) => {
+    try {
+      await new UserService().getUserInfo();
+    } catch (error) {
+      return thunkAPI.rejectWithValue(undefined);
+    }
+  },
+);
+
 const authSlice = createSlice({
   name: 'auth',
   initialState: { isLoggedIn: false },
@@ -100,6 +113,12 @@ const authSlice = createSlice({
       state.isLoggedIn = false;
     });
     builder.addCase(logout.fulfilled, state => {
+      state.isLoggedIn = false;
+    });
+    builder.addCase(autoLogin.fulfilled, state => {
+      state.isLoggedIn = true;
+    });
+    builder.addCase(autoLogin.rejected, state => {
       state.isLoggedIn = false;
     });
   },

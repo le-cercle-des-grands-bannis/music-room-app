@@ -25,7 +25,7 @@ import { getFromSecureStore } from '../utils/authUtils';
 
 export default class Api {
   private api = axios.create({
-    baseURL: 'http://10.0.2.2:4242',
+    baseURL: 'https://dev.api.musicroom.benjaminnoufel.com/',
     headers: {
       'Accept-language': 'fr',
       Accept: 'application/json',
@@ -46,8 +46,12 @@ export default class Api {
       return this.api.post('/users/login', payload);
     },
 
-    me: (): Promise<AxiosResponse<getUserInfoResponse>> => {
-      return this.api.get('/users/me');
+    me: async (): Promise<AxiosResponse<getUserInfoResponse>> => {
+      return this.api.get('/users/me', {
+        headers: {
+          authorization: `Bearer ${await getValueFor('userToken')}`,
+        },
+      });
     },
 
     update: async (

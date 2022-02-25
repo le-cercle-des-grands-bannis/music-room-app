@@ -11,7 +11,7 @@ import { useAppSelector } from '../hooks/redux';
 import ForgotPassword from '../screens/AuthScreen/ForgotPassword';
 import SignIn from '../screens/AuthScreen/SignIn';
 import SignUp from '../screens/AuthScreen/SignUp/SignUp';
-import Test from '../screens/Test';
+import DrawerNavigator from './DrawerNavigator';
 import { NavigatorParam } from './NavigatorParam';
 
 const Stack = createStackNavigator<NavigatorParam>();
@@ -24,23 +24,19 @@ const AppNavigator = () => {
       {/*// @ts-ignore*/}
 
       <NavigationContainer value={{ lang: translations[lang] }}>
-        <Stack.Navigator
-          initialRouteName="SignIn"
-          screenOptions={{
-            headerShown: false,
-          }}>
-          {!isLoggedIn ? (
-            <>
-              <Stack.Screen name="SignUp" component={SignUp} />
-              <Stack.Screen name="SignIn" component={SignIn} />
-              <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
-            </>
-          ) : (
-            <>
-              <Stack.Screen name="Test" component={Test} />
-            </>
-          )}
-        </Stack.Navigator>
+        {!isLoggedIn ? (
+          <Stack.Navigator
+            initialRouteName="SignIn"
+            screenOptions={{
+              headerShown: false,
+            }}>
+            <Stack.Screen name="SignIn" component={SignIn} />
+            <Stack.Screen name="SignUp" component={SignUp} />
+            <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+          </Stack.Navigator>
+        ) : (
+          <DrawerNavigator />
+        )}
       </NavigationContainer>
       <NotificationStack />
     </SafeAreaView>
