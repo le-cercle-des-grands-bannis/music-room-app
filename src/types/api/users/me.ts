@@ -1,6 +1,6 @@
 export interface UsersMePayload {}
 
-export interface getUserInfoResponse {
+export interface GetUserInfoResponse {
   username: string;
   firstName: string;
   lastName: string;

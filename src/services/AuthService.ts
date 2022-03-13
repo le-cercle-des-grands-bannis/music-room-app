@@ -1,7 +1,7 @@
-import axios, { AxiosResponse } from 'axios';
+import MusicRoomApiService from '@services/MusicRoomApiService';
+import { AxiosResponse } from 'axios';
 import * as SecureStore from 'expo-secure-store';
 
-import GlobalConstant from '../constants/GlobalConstant';
 import SecureStoreConstant from '../constants/SecureStoreConstant';
 import {
   LoginPayload,
@@ -16,18 +16,7 @@ import {
   ResetPasswordResponse,
 } from '../types/services/authService/reset';
 
-export default class AuthService {
-  private api = axios.create({
-    baseURL: GlobalConstant.API_URL,
-    headers: {
-      'Accept-language': 'fr',
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      'X-AUTH': 'API',
-    },
-    timeout: 5000,
-  });
-
+export default class AuthService extends MusicRoomApiService {
   async register(
     payload: RegisterPayload,
   ): Promise<AxiosResponse<RegisterResponse>> {
@@ -45,10 +34,7 @@ export default class AuthService {
   }
 
   async login(payload: LoginPayload): Promise<AxiosResponse<LoginResponse>> {
-    const response = await this.api.post<LoginResponse>(
-      '/login',
-      payload,
-    );
+    const response = await this.api.post<LoginResponse>('/login', payload);
     if (response.data?.oat?.token !== undefined) {
       await SecureStore.setItemAsync(
         SecureStoreConstant.API_USER_TOKEN,

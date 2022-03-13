@@ -12,7 +12,7 @@ import WebView from 'react-native-webview';
 import SecureStoreConstant from '../../constants/SecureStoreConstant';
 import { Premium } from '../../types/services/PremiumService/getPremiums';
 import { Button } from '../Button';
-import { clamp } from '../MusicTimeline';
+import { clamp } from '../MusicPlayer';
 
 export default function PremiumCard(props: { data: Premium }) {
   const [process, setProcess] = useState<boolean>(false);

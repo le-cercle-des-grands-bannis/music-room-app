@@ -23,7 +23,7 @@ export default function SignUp({
 
   const submit = async () => {
     try {
-      dispatch(
+      const data = await dispatch(
         register({
           username: username.current,
           email: email.current,

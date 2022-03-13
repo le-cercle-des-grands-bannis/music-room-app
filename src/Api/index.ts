@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 
-import { getUserInfoResponse } from '../types/api/users/me';
+import { GetUserInfoResponse } from '../types/api/users/me';
 import {
   UsersPasswordNewPayload,
   UsersPasswordNewResponse,
@@ -46,7 +46,7 @@ export default class Api {
       return this.api.post('/users/login', payload);
     },
 
-    me: async (): Promise<AxiosResponse<getUserInfoResponse>> => {
+    me: async (): Promise<AxiosResponse<GetUserInfoResponse>> => {
       return this.api.get('/users/me', {
         headers: {
           authorization: `Bearer ${await getValueFor('userToken')}`,

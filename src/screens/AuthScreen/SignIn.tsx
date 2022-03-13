@@ -59,13 +59,13 @@ export default function SignIn({ navigation }) {
       <Text style={{ fontSize: 30, paddingBottom: 40 }}>Connexion</Text>
       <Field
         name="Email"
-        textInputProps={{ onChangeText: value => (email.current = value) }}
+        textInputProps={{ onChangeText: (value) => (email.current = value) }}
       />
       <Field
         name="Mot de passe"
         textInputProps={{
           secureTextEntry: true,
-          onChangeText: value => (password.current = value),
+          onChangeText: (value) => (password.current = value),
         }}
       />
       <View
@@ -78,7 +78,7 @@ export default function SignIn({ navigation }) {
         <Text>Se souvenir de moi</Text>
         <Checkbox
           status={rememberMe ? 'checked' : 'unchecked'}
-          onPress={() => setRememberMe(prevState => !prevState)}
+          onPress={() => setRememberMe((prevState) => !prevState)}
           color="grey"
         />
       </View>

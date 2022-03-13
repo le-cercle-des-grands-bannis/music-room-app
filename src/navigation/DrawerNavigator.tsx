@@ -12,6 +12,10 @@ import { SafeAreaView, ScrollView } from 'react-native';
 import { useAppDispatch } from '../hooks/redux';
 import BottomTabNavigator from './BottomTabNavigator';
 import PremiumStackNavigator from './PremiumStackNavigator';
+import HomeStackNavigator from './HomeStackNavigator';
+import SettingsStackNavigator from './SettingsStackNavigator';
+import MusicSearch from '../screens/AppScreen/Playlists/MusicSearch';
+import Playlist from '../screens/AppScreen/Playlists/Playlist';
 
 const Drawer = createDrawerNavigator();
 
@@ -38,8 +42,11 @@ const DrawerNavigator = () => {
         drawerStatusBarAnimation: 'slide',
       }}
       drawerContent={CustomDrawerContent}>
-      <Drawer.Screen name="Home" component={BottomTabNavigator} />
+      <Drawer.Screen name="Home" component={HomeStackNavigator} />
       <Drawer.Screen name="Premium" component={PremiumStackNavigator} />
+      <Drawer.Screen name="Paramètres" component={SettingsStackNavigator} />
+      <Drawer.Screen name="Search" component={MusicSearch} />
+      <Drawer.Screen name="Playlist" component={Playlist} />
       {/*<Drawer.Screen name="Settings" component={} />*/}
     </Drawer.Navigator>
   );

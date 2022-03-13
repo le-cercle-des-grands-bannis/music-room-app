@@ -2,12 +2,18 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { LinearGradient } from 'expo-linear-gradient';
 import { View } from 'react-native';
 
+import MusicPlayer from '../components/MusicPlayer';
 import DiamondIcon from '../components/icons/DiamondIcon';
 import MessageIcon from '../components/icons/MessageIcon';
 import PlaylistIcon from '../components/icons/PlaylistIcon';
-import Playlists from '../screens/AppScreen/Playlists';
 import Rooms from '../screens/AppScreen/Rooms';
-import MusicTimeline from '../components/MusicTimeline';
+import Playlists from '../screens/AppScreen/Playlists/Playlists';
+
+type CreatePlaylistStackParamList = {
+  Rooms: undefined;
+  Playlists: undefined;
+  Messages: undefined;
+};
 
 const Tab = createBottomTabNavigator();
 
@@ -63,7 +69,7 @@ const BottomTabNavigator = () => {
           }}
         />
       </Tab.Navigator>
-      <MusicTimeline/>
+      <MusicPlayer />
     </>
   );
 };

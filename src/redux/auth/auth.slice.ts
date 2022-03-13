@@ -17,7 +17,7 @@ const isAxiosError = <T = any>(error: any): error is AxiosError<T> => {
   return axios.isAxiosError(error);
 };
 
-function handleApiErrorThunk(error: any, thunkAPI: any) {
+export function handleApiErrorThunk(error: any, thunkAPI: any) {
   if (isAxiosError<{ errors: string[] }>(error)) {
     if (error.response?.data?.errors !== undefined) {
       error.response.data.errors.forEach((value: string) => {
@@ -99,26 +99,26 @@ const authSlice = createSlice({
   name: 'auth',
   initialState: { isLoggedIn: false },
   reducers: {},
-  extraReducers: builder => {
-    builder.addCase(register.fulfilled, state => {
+  extraReducers: (builder) => {
+    builder.addCase(register.fulfilled, (state) => {
       state.isLoggedIn = true;
     });
-    builder.addCase(register.rejected, state => {
+    builder.addCase(register.rejected, (state) => {
       state.isLoggedIn = false;
     });
-    builder.addCase(login.fulfilled, state => {
+    builder.addCase(login.fulfilled, (state) => {
       state.isLoggedIn = true;
     });
-    builder.addCase(login.rejected, state => {
+    builder.addCase(login.rejected, (state) => {
       state.isLoggedIn = false;
     });
-    builder.addCase(logout.fulfilled, state => {
+    builder.addCase(logout.fulfilled, (state) => {
       state.isLoggedIn = false;
     });
-    builder.addCase(autoLogin.fulfilled, state => {
+    builder.addCase(autoLogin.fulfilled, (state) => {
       state.isLoggedIn = true;
     });
-    builder.addCase(autoLogin.rejected, state => {
+    builder.addCase(autoLogin.rejected, (state) => {
       state.isLoggedIn = false;
     });
   },

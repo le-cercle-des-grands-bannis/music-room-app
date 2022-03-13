@@ -1,10 +1,10 @@
 import { Square } from 'native-base';
 import React, { PropsWithChildren } from 'react';
-import { Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 
-const PlaylistCard = (props: { playlistName: string }) => {
+const PlaylistCard = (props: { playlistName: string; id: string }) => {
   return (
-    <View
+    <Pressable
       style={{
         width: '80%',
         margin: 20,
@@ -12,12 +12,16 @@ const PlaylistCard = (props: { playlistName: string }) => {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-      }}>
+      }}
+      onLongPress={() => console.log('long press')}
+      onPress={() => console.log('press')}>
       <View style={{ width: 60, height: 60, backgroundColor: 'gray' }} />
       <View style={{ width: '80%', paddingHorizontal: 30 }}>
-        <Text style={{fontSize: 20, color: 'white'}}>{props.playlistName}</Text>
+        <Text style={{ fontSize: 20, color: 'white' }}>
+          {props.playlistName}
+        </Text>
       </View>
-    </View>
+    </Pressable>
   );
 };
 

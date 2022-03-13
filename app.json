@@ -1,5 +1,6 @@
 {
   "expo": {
+    "sdkVersion": "44.0.6",
     "name": "music-room-app",
     "slug": "music-room-app",
     "version": "1.0.0",
